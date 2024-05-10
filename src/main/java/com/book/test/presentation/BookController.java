@@ -3,6 +3,8 @@ package com.book.test.presentation;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.book.test.application.usecases.UpdateBookUseCase;
 import com.book.test.domain.entities.Book;
 import com.book.test.presentation.requests.CreateBookDto;
 import com.book.test.presentation.requests.UpdateBookDto;
+import com.book.test.presentation.responses.ResponseEntityBuilder;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,30 +58,40 @@ public final class BookController {
 
 
     @GetMapping("")
-    public List<Book> getBooks() {
-        return this.getBooksUseCase.execute();
+    public ResponseEntity<List<Book>> getBooks() {
+        var result = this.getBooksUseCase.execute();
+        
+        return ResponseEntityBuilder.build(HttpStatus.OK, result);
     }
 
     @GetMapping("/{id}")
-    public Optional<Book> getBook (@PathVariable Integer id) {
+    public ResponseEntity<Optional<Book>> getBook (@PathVariable Integer id) {
 
-        return this.getBookByIdUseCase.execute(id);
+        var result = this.getBookByIdUseCase.execute(id);
+
+        return ResponseEntityBuilder.build(HttpStatus.OK, result);
     }
     
     @PostMapping("")
-    public void create(@RequestBody CreateBookDto data) {
+    public ResponseEntity<Void> create(@RequestBody CreateBookDto data) {
         this.createBookUseCase.execute(data);
+
+        return ResponseEntityBuilder.build(HttpStatus.OK);
     }
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         this.deleteBookByIdUseCase.execute(id);
+
+        return ResponseEntityBuilder.build(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Integer id, @RequestBody UpdateBookDto data) {
+    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody UpdateBookDto data) {
         this.updateBookUseCase.execute(id, data);
+        
+        return ResponseEntityBuilder.build(HttpStatus.OK);
     }
     
 
