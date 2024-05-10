@@ -1,0 +1,17 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: "app"
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "5432:5432"
+
+volumes:
+  database_data:
