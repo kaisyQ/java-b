@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.book.test.application.models.BookModel;
 import com.book.test.application.usecases.CreateBookUseCase;
 import com.book.test.application.usecases.DeleteBookByIdUseCase;
 import com.book.test.application.usecases.GetBookByIdUseCase;
@@ -65,7 +66,7 @@ public final class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Book>> getBook (@PathVariable Integer id) {
+    public ResponseEntity<Optional<BookModel>> getBook (@PathVariable Integer id) {
 
         var result = this.getBookByIdUseCase.execute(id);
 
